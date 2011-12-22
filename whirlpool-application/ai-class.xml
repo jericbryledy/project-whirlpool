@@ -1,0 +1,29 @@
+<units>
+	<unit id="01">
+		<name>Welcome to AI</name>
+		<lectures>
+			<lecture id="01">
+				<name>Introduction</name>
+				<video>01-01.mp4</video>
+			</lecture>
+			<lecture id="02">
+				<name>Course Overview</name>
+				<video>01-02.mp4</video>
+				<question>
+					<image>01-02.jpg</image>
+					<form>
+						<radio name="q1">
+							<entry x="126" y="208" value="wetware" />
+							<entry x="127" y="268" value="formula" />
+							<entry x="127" y="326" value="intelligent_agent" />
+						</radio>
+					</form>
+					<answers>
+						<answer name="q1" value="intelligent_agent" />
+					</answers>
+<!--					<explanation>01-02-exp.mp4</explanation>-->
+				</question>
+			</lecture>
+		</lectures>
+	</unit>
+</units>
