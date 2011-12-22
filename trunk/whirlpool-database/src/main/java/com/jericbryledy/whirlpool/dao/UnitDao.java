@@ -15,34 +15,40 @@ import org.w3c.dom.NodeList;
  */
 public class UnitDao {
 
-	private WhirlpoolDao dao;
+	private WhirlpoolXPathHelper helper;
+	private LectureDao lectureDao;
 
 	public UnitDao() {
 		try {
-			dao = new WhirlpoolDao("ai-class.xml");
+			helper = WhirlpoolXPathHelper.getInstance();
 		} catch (Exception ex) {
 			Logger.getLogger(UnitDao.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
+		lectureDao = new LectureDao();
 	}
 
 	public Unit[] getAll() {
 		Unit[] units = null;
-		try {
-			NodeList list = dao.retreive("units/unit/@id");
+		NodeList list = helper.retreive("class/units/unit/@id");
 
-			int size = list.getLength();
-			units = new Unit[size];
+		int size = list.getLength();
+		units = new Unit[size];
 
-			for (int i = 0; i < size; ++i) {
-				Unit unit = units[i] = new Unit();
-
-				unit.setId(Integer.parseInt(list.item(i).getTextContent()));
-				unit.setName(dao.retrieveString("units/unit[@id=" + unit.getId() + "]/name"));
-			}
-		} catch (Exception ex) {
-			Logger.getLogger(UnitDao.class.getName()).log(Level.SEVERE, null, ex);
+		for (int i = 0; i < size; ++i) {
+			units[i] = getById(list.item(i).getTextContent());
 		}
 
 		return units;
+	}
+
+	public Unit getById(String id) {
+		Unit unit = new Unit();
+
+		unit.setId(id);
+		unit.setName(helper.retrieveString("class/units/unit[@id=\"" + unit.getId() + "\"]/name"));
+		unit.setLectures(lectureDao.getByUnitId(id));
+
+		return unit;
 	}
 }
