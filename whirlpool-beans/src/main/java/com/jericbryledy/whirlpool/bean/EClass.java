@@ -4,40 +4,41 @@
  */
 package com.jericbryledy.whirlpool.bean;
 
-import java.util.List;
-
 /**
  *
  * @author Jeric Bryle Sy Dy
  */
-public class Unit {
+public class EClass {
 
-	private String id;
 	private String name;
-	private Lecture[] lectures;
+	private Unit[] units;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Lecture[] getLectures() {
-		return lectures;
+	/**
+	 * @return the units
+	 */
+	public Unit[] getUnits() {
+		return units;
 	}
 
-	public void setLectures(Lecture[] lectures) {
-		this.lectures = lectures;
+	/**
+	 * @param units the units to set
+	 */
+	public void setUnits(Unit[] units) {
+		this.units = units;
 	}
 
 	@Override
