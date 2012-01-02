@@ -8,7 +8,7 @@ package com.jericbryledy.whirlpool.bean;
  *
  * @author Jeric Bryle Sy Dy
  */
-public class EClass {
+public class EClass implements WhirlpoolTreeItem {
 
 	private String name;
 	private Unit[] units;
@@ -44,5 +44,13 @@ public class EClass {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	public String getItemName() {
+		return getName();
+	}
+
+	public String getItemValue() {
+		return null;
 	}
 }

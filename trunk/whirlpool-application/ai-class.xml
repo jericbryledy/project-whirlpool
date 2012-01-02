@@ -12,7 +12,7 @@
 					<name>Course Overview</name>
 					<video>ai-res/01-02.mp4</video>
 					<question>
-						<image>01-02.jpg</image>
+						<image>ai-res/01-02.jpg</image>
 						<form>
 							<radio name="q1">
 								<entry x="126" y="208" value="wetware" />

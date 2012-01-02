@@ -20,6 +20,10 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jmf</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

@@ -5,8 +5,6 @@
 package com.jericbryledy.whirlpool.dao;
 
 import com.jericbryledy.whirlpool.bean.Unit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.w3c.dom.NodeList;
 
 /**
@@ -19,11 +17,7 @@ public class UnitDao {
 	private LectureDao lectureDao;
 
 	public UnitDao() {
-		try {
-			helper = WhirlpoolXPathHelper.getInstance();
-		} catch (Exception ex) {
-			Logger.getLogger(UnitDao.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		helper = WhirlpoolXPathHelper.getInstance();
 
 		lectureDao = new LectureDao();
 	}

@@ -5,15 +5,16 @@
 package com.jericbryledy.whirlpool.bean;
 
 /**
- *
+ * each lecture may have questions, but this class ignores the questions
+ * in order to save up memory in large lectures/classes
+ * 
  * @author Jeric Bryle Sy Dy
  */
-public class Lecture {
+public class Lecture implements WhirlpoolTreeItem {
 
 	private String id;
 	private String name;
 	private String video;
-	private Question question;
 
 	/**
 	 * @return the id
@@ -57,22 +58,16 @@ public class Lecture {
 		this.video = video;
 	}
 
-	/**
-	 * @return the question
-	 */
-	public Question getQuestion() {
-		return question;
-	}
-
-	/**
-	 * @param question the question to set
-	 */
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	public String getItemName() {
+		return getName();
+	}
+
+	public String getItemValue() {
+		return getVideo();
 	}
 }
