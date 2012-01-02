@@ -36,9 +36,12 @@ public class LectureDao {
 	public Lecture getById(String id) {
 		Lecture lecture = new Lecture();
 
+		StringBuilder mainQuery = new StringBuilder();
+		mainQuery.append("class/units/unit/lectures/lecture[@id=\"").append(id).append("\"]/");
+
 		lecture.setId(id);
-		lecture.setName(helper.retrieveString("class/units/unit/lectures/lecture[@id=\"" + id + "\"]/name"));
-		lecture.setVideo(helper.retrieveString("class/units/unit/lectures/lecture[@id=\"" + id + "\"]/video"));
+		lecture.setName(helper.retrieveString(mainQuery.toString() + "name"));
+		lecture.setVideo(helper.retrieveString(mainQuery.toString() + "video"));
 
 		return lecture;
 	}

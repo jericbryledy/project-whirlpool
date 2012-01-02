@@ -5,8 +5,6 @@
 package com.jericbryledy.whirlpool.dao;
 
 import com.jericbryledy.whirlpool.bean.EClass;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

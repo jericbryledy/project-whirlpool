@@ -10,10 +10,16 @@
  */
 package com.jericbryledy.whirlpool.app;
 
-import com.jericbryledy.whirlpool.bean.Lecture;
+import com.jericbryledy.whirlpool.bean.WhirlpoolTreeItem;
+import com.jericbryledy.whirlpool.dao.QuestionDao;
+import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -21,15 +27,29 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class WhirlpoolWindow extends javax.swing.JFrame {
 
-	/** Creates new form WhirlpoolWindow */
+	private String curVideoPath;
+
 	public WhirlpoolWindow() {
 		initComponents();
 		navigator.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) navigator.getSelectionPath().getLastPathComponent();
-				if (node.getUserObject() instanceof Lecture) {
-					System.out.println(((Lecture) node.getUserObject()).getVideo());
+				TreePath path = navigator.getSelectionPath();
+				if (path == null) {
+					curVideoPath = null;
+					triggerVideoPathChanged();
+				} else {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+					if (node.getUserObject() instanceof WhirlpoolTreeItem) {
+						String selectedVideoPath = ((WhirlpoolTreeItem) node.getUserObject()).getItemValue();
+						if (selectedVideoPath == null) {
+							curVideoPath = null;
+							triggerVideoPathChanged();
+						} else if (curVideoPath == null || !curVideoPath.equals(selectedVideoPath)) {
+							curVideoPath = selectedVideoPath;
+							triggerVideoPathChanged();
+						}
+					}
 				}
 			}
 
@@ -60,6 +80,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         navigator = new javax.swing.JTree();
         jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        launchVideoButton = new javax.swing.JButton();
+        displayProblemButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        videoPathLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,6 +94,51 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         jScrollPane1.setViewportView(navigator);
 
         jSplitPane1.setLeftComponent(jScrollPane1);
+
+        launchVideoButton.setText("Launch Video");
+        launchVideoButton.setEnabled(false);
+        launchVideoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                launchVideoButtonActionPerformed(evt);
+            }
+        });
+
+        displayProblemButton.setText("Display Problem");
+        displayProblemButton.setEnabled(false);
+
+        jLabel1.setText("file:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(launchVideoButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(videoPathLabel))
+                    .addComponent(displayProblemButton))
+                .addContainerGap(303, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(launchVideoButton)
+                    .addComponent(jLabel1)
+                    .addComponent(videoPathLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(displayProblemButton)
+                .addContainerGap(198, Short.MAX_VALUE))
+        );
+
+        jScrollPane2.setViewportView(jPanel1);
+
         jSplitPane1.setRightComponent(jScrollPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -91,10 +161,38 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+	private void launchVideoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchVideoButtonActionPerformed
+		// no idea how to make mp4 files work with JMF (downloaded videos from youtube are mp4)
+		// maybe convert mp4 into supported format instead?
+		// or open with system/local media player?
+//		Player player = Manager.createPlayer(new URL("file", null, curVideoPath.replaceAll(" ", "%20")));
+//		player.start();
+
+		try {
+			Desktop.getDesktop().open(new File(curVideoPath));
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(this, "No file associated with format: " + curVideoPath.substring(curVideoPath.lastIndexOf(".")));
+		} catch (IllegalArgumentException ex) {
+			JOptionPane.showMessageDialog(this, "File not found: " + curVideoPath);
+		}
+	}//GEN-LAST:event_launchVideoButtonActionPerformed
+
+	private void triggerVideoPathChanged() {
+
+		if (curVideoPath == null) {
+			videoPathLabel.setText("");
+			launchVideoButton.setEnabled(false);
+		} else {
+			videoPathLabel.setText(curVideoPath);
+			launchVideoButton.setEnabled(true);
+		}
+	}
+
 	/**
 	 * @param args the command line arguments
 	 */
 	public static void main(String args[]) {
+		new QuestionDao().getByLectureId("01-02");
 		/* Set the Nimbus look and feel */
 		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -122,9 +220,14 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		});
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton displayProblemButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JButton launchVideoButton;
     private javax.swing.JTree navigator;
+    private javax.swing.JLabel videoPathLabel;
     // End of variables declaration//GEN-END:variables
 }

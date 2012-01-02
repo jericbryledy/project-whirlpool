@@ -4,13 +4,11 @@
  */
 package com.jericbryledy.whirlpool.bean;
 
-import java.util.List;
-
 /**
  *
  * @author Jeric Bryle Sy Dy
  */
-public class Unit {
+public class Unit implements WhirlpoolTreeItem {
 
 	private String id;
 	private String name;
@@ -43,5 +41,13 @@ public class Unit {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	public String getItemName() {
+		return getName();
+	}
+
+	public String getItemValue() {
+		return null;
 	}
 }
