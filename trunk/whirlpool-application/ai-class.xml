@@ -25,9 +25,13 @@
 								<choice x="100" y="100" value="intelligent_agent" />
 							</radio>
 							<text name="q3" x="200" y="10" />
+							<check name="q4" x="10" y="200" />
 						</form>
 						<answers>
 							<answer name="q1" value="intelligent_agent" />
+							<answer name="q2" value="formula" />
+							<answer name="q3" value="hello" />
+							<answer name="q4" value="true" />
 						</answers>
 	<!--					<explanation>01-02-exp.mp4</explanation>-->
 					</question>
