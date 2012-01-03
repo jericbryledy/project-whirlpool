@@ -10,9 +10,30 @@
  */
 package com.jericbryledy.whirlpool.app;
 
+import com.jericbryledy.whirlpool.app.adaptor.CheckAdaptor;
+import com.jericbryledy.whirlpool.app.adaptor.InputAdaptor;
+import com.jericbryledy.whirlpool.app.adaptor.RadioInputAdaptor;
+import com.jericbryledy.whirlpool.app.adaptor.TextInputAdaptor;
+import com.jericbryledy.whirlpool.bean.Question;
+import com.jericbryledy.whirlpool.bean.forminput.CheckInput;
+import com.jericbryledy.whirlpool.bean.forminput.FormInput;
+import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
+import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
+import com.jericbryledy.whirlpool.bean.forminput.TextInput;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.TextField;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -20,10 +41,12 @@ import java.awt.image.BufferedImage;
  */
 public class QuestionPanel extends java.awt.Panel {
 
+	private List<InputAdaptor> inputAdaptors;
 	private BufferedImage background;
 
 	/** Creates new form QuestionPanel */
 	public QuestionPanel() {
+		inputAdaptors = new Stack<InputAdaptor>();
 		initComponents();
 	}
 
@@ -63,5 +86,72 @@ public class QuestionPanel extends java.awt.Panel {
 	public void clear() {
 		background = null;
 		setupSize(new Dimension(1, 1));
+	}
+
+	public void setup(Question question) {
+		inputAdaptors.clear();
+
+		try {
+			BufferedImage image = ImageIO.read(new File(question.getImage()));
+			setBackground(image);
+		} catch (IOException ex) {
+			Logger.getLogger(WhirlpoolWindow.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		FormInput[] formInputs = question.getForm().getInputs();
+		for (FormInput input : formInputs) {
+			InputAdaptor adaptor = null;
+			if (input instanceof TextInput) {
+				TextField field = setupTextInput((TextInput) input);
+				adaptor = new TextInputAdaptor(input.getName(), field);
+			} else if (input instanceof RadioInput) {
+				ButtonGroup group = setupRadioInput((RadioInput) input);
+				adaptor = new RadioInputAdaptor(input.getName(), group);
+			} else if (input instanceof CheckInput) {
+				JCheckBox check = setupCheckInput((CheckInput) input);
+				adaptor = new CheckAdaptor(input.getName(), check);
+			}
+
+			inputAdaptors.add(adaptor);
+		}
+
+		repaint();
+	}
+
+	private TextField setupTextInput(TextInput text) {
+		TextField field = new TextField();
+
+		field.setBounds(text.getX(), text.getY(), 120, 25);
+		add(field);
+
+		return field;
+	}
+
+	private ButtonGroup setupRadioInput(RadioInput input) {
+		ButtonGroup group = new ButtonGroup();
+
+		RadioChoice[] choices = input.getChoices();
+		for (RadioChoice choice : choices) {
+			JRadioButton radioButton = new JRadioButton();
+			Dimension prefferedSize = radioButton.getPreferredSize();
+			radioButton.setBounds(choice.getX() - prefferedSize.width / 2, choice.getY() - prefferedSize.height / 2, prefferedSize.width, prefferedSize.height);
+			radioButton.setActionCommand(choice.getValue());
+
+			add(radioButton);
+
+			group.add(radioButton);
+		}
+
+		return group;
+	}
+
+	private JCheckBox setupCheckInput(CheckInput check) {
+		JCheckBox checkField = new JCheckBox();
+
+		Dimension prefferedSize = checkField.getPreferredSize();
+		checkField.setBounds(check.getX(), check.getY(), prefferedSize.width, prefferedSize.height);
+		add(checkField);
+
+		return checkField;
 	}
 }

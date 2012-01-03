@@ -5,6 +5,7 @@
 package com.jericbryledy.whirlpool.dao;
 
 import com.jericbryledy.whirlpool.bean.Form;
+import com.jericbryledy.whirlpool.bean.forminput.CheckInput;
 import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
 import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
 import com.jericbryledy.whirlpool.bean.forminput.TextInput;
@@ -31,13 +32,18 @@ public class FormDao {
 
 		StringBuilder mainQuery = new StringBuilder();
 		mainQuery.append("class/units/unit/lectures/lecture[@id=\"").append(lectureId).append("\"]/question/form/");
-
-		NodeList textList = helper.retreiveNodeList(mainQuery.toString() + "text");
-		textHelper(form, textList);
-
-		NodeList radioList = helper.retreiveNodeList(mainQuery.toString() + "radio");
-		radioHelper(form, radioList);
-
+		{
+			NodeList textList = helper.retreiveNodeList(mainQuery.toString() + "text");
+			textHelper(form, textList);
+		}
+		{
+			NodeList radioList = helper.retreiveNodeList(mainQuery.toString() + "radio");
+			radioHelper(form, radioList);
+		}
+		{
+			NodeList checkList = helper.retreiveNodeList(mainQuery.toString() + "check");
+			checkHelper(form, checkList);
+		}
 		return form;
 	}
 
@@ -87,6 +93,21 @@ public class FormDao {
 
 			radio.setChoices(radioChoices);
 			form.addInput(radio);
+		}
+	}
+
+	private void checkHelper(Form form, NodeList checkList) {
+		int len = checkList.getLength();
+		for (int i = 0; i < len; ++i) {
+			Node checkNode = checkList.item(i);
+
+			CheckInput check = new CheckInput();
+			NamedNodeMap att = checkNode.getAttributes();
+			check.setName(att.getNamedItem("name").getTextContent());
+			check.setX(Integer.parseInt(att.getNamedItem("x").getTextContent()));
+			check.setY(Integer.parseInt(att.getNamedItem("y").getTextContent()));
+
+			form.addInput(check);
 		}
 	}
 }

@@ -10,32 +10,15 @@
  */
 package com.jericbryledy.whirlpool.app;
 
-import com.jericbryledy.whirlpool.app.adaptor.InputAdaptor;
-import com.jericbryledy.whirlpool.app.adaptor.RadioInputAdaptor;
-import com.jericbryledy.whirlpool.app.adaptor.TextInputAdaptor;
 import com.jericbryledy.whirlpool.bean.Question;
 import com.jericbryledy.whirlpool.bean.WhirlpoolTreeItem;
-import com.jericbryledy.whirlpool.bean.forminput.FormInput;
-import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
-import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
-import com.jericbryledy.whirlpool.bean.forminput.TextInput;
 import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.TextField;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -49,11 +32,9 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	private WhirlpoolTreeItem curTreeItem;
 	private String curVideoPath;
 	private Question curQuestion;
-	private List<InputAdaptor> inputAdaptors;
 
 	public WhirlpoolWindow() {
 		questionDao = new QuestionDao();
-		inputAdaptors = new Stack<InputAdaptor>();
 
 		initComponents();
 		navigator.addMouseListener(new MouseListener() {
@@ -239,7 +220,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 
 	private void displayProblemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayProblemButtonActionPerformed
 		if (displayProblemButton.isSelected()) {
-			setupQuestionPane();
+			questionPane.setup(curQuestion);
 			doneButton.setEnabled(true);
 		} else {
 			questionPane.clear();
@@ -248,9 +229,9 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	}//GEN-LAST:event_displayProblemButtonActionPerformed
 
 	private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
-		for (InputAdaptor adaptor : inputAdaptors) {
-			System.out.println(adaptor.getName() + ": " + adaptor.getValue());
-		}
+//		for (InputAdaptor adaptor : inputAdaptors) {
+//			System.out.println(adaptor.getName() + ": " + adaptor.getValue());
+//		}
 	}//GEN-LAST:event_doneButtonActionPerformed
 
 	private void triggerVideoPathChanged() {
@@ -298,59 +279,4 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
     private com.jericbryledy.whirlpool.app.QuestionPanel questionPane;
     private javax.swing.JLabel videoPathLabel;
     // End of variables declaration//GEN-END:variables
-
-	private void setupQuestionPane() {
-		inputAdaptors.clear();
-
-		try {
-			BufferedImage image = ImageIO.read(new File(curQuestion.getImage()));
-			questionPane.setBackground(image);
-		} catch (IOException ex) {
-			Logger.getLogger(WhirlpoolWindow.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
-		FormInput[] formInputs = curQuestion.getForm().getInputs();
-		for (FormInput input : formInputs) {
-			InputAdaptor adaptor = null;
-			if (input instanceof TextInput) {
-				TextField field = setupTextInput((TextInput) input);
-				adaptor = new TextInputAdaptor(input.getName(), field);
-			} else if (input instanceof RadioInput) {
-				ButtonGroup group = setupRadioInput((RadioInput) input);
-				adaptor = new RadioInputAdaptor(input.getName(), group);
-			}
-
-			inputAdaptors.add(adaptor);
-		}
-
-		repaint();
-	}
-
-	private TextField setupTextInput(TextInput text) {
-		TextField field = new TextField();
-
-		field.setBounds(text.getX(), text.getY(), 120, 25);
-
-		questionPane.add(field);
-
-		return field;
-	}
-
-	private ButtonGroup setupRadioInput(RadioInput input) {
-		ButtonGroup group = new ButtonGroup();
-
-		RadioChoice[] choices = input.getChoices();
-		for (RadioChoice choice : choices) {
-			JRadioButton radioButton = new JRadioButton();
-			Dimension prefferedSize = radioButton.getPreferredSize();
-			radioButton.setBounds(choice.getX() - prefferedSize.width / 2, choice.getY() - prefferedSize.height / 2, prefferedSize.width, prefferedSize.height);
-			radioButton.setActionCommand(choice.getValue());
-
-			questionPane.add(radioButton);
-
-			group.add(radioButton);
-		}
-
-		return group;
-	}
 }
