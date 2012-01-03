@@ -24,7 +24,7 @@ public class UnitDao {
 
 	public Unit[] getAll() {
 		Unit[] units = null;
-		NodeList list = helper.retreive("class/units/unit/@id");
+		NodeList list = helper.retreiveNodeList("class/units/unit/@id");
 
 		int size = list.getLength();
 		units = new Unit[size];

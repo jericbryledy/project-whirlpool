@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -29,10 +30,21 @@ public class XPathHelper {
 		xpath = XPathFactory.newInstance().newXPath();
 	}
 
-	public NodeList retreive(String query) {
+	public NodeList retreiveNodeList(String query) {
 		try {
 			XPathExpression expr = xpath.compile(query);
 			return (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+		} catch (XPathExpressionException ex) {
+			Logger.getLogger(XPathHelper.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		return null;
+	}
+
+	public Node retreiveNode(String query) {
+		try {
+			XPathExpression expr = xpath.compile(query);
+			return (Node) expr.evaluate(doc, XPathConstants.NODE);
 		} catch (XPathExpressionException ex) {
 			Logger.getLogger(XPathHelper.class.getName()).log(Level.SEVERE, null, ex);
 		}

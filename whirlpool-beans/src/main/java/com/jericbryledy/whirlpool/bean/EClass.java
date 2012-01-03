@@ -46,6 +46,10 @@ public class EClass implements WhirlpoolTreeItem {
 		return getName();
 	}
 
+	public String getItemId() {
+		return null;
+	}
+
 	public String getItemName() {
 		return getName();
 	}

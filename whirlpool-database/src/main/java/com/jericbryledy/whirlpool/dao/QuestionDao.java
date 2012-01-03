@@ -17,6 +17,7 @@ public class QuestionDao {
 
 	public QuestionDao() {
 		helper = WhirlpoolXPathHelper.getInstance();
+		formDao = new FormDao();
 	}
 
 	public Question getByLectureId(String lectureId) {
