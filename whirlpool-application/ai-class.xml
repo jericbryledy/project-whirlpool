@@ -20,10 +20,11 @@
 								<choice x="127" y="326" value="intelligent_agent" />
 							</radio>
 							<radio name="q2">
-								<choice x="1" y="1" value="wetware" />
-								<choice x="2" y="2" value="formula" />
-								<choice x="3" y="3" value="intelligent_agent" />
+								<choice x="10" y="10" value="wetware" />
+								<choice x="50" y="50" value="formula" />
+								<choice x="100" y="100" value="intelligent_agent" />
 							</radio>
+							<text name="q3" x="200" y="10" />
 						</form>
 						<answers>
 							<answer name="q1" value="intelligent_agent" />

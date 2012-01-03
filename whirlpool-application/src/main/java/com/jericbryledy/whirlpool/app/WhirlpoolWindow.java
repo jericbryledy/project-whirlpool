@@ -10,15 +10,32 @@
  */
 package com.jericbryledy.whirlpool.app;
 
+import com.jericbryledy.whirlpool.app.adaptor.InputAdaptor;
+import com.jericbryledy.whirlpool.app.adaptor.RadioInputAdaptor;
+import com.jericbryledy.whirlpool.app.adaptor.TextInputAdaptor;
 import com.jericbryledy.whirlpool.bean.Question;
 import com.jericbryledy.whirlpool.bean.WhirlpoolTreeItem;
+import com.jericbryledy.whirlpool.bean.forminput.FormInput;
+import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
+import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
+import com.jericbryledy.whirlpool.bean.forminput.TextInput;
 import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.TextField;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -32,9 +49,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	private WhirlpoolTreeItem curTreeItem;
 	private String curVideoPath;
 	private Question curQuestion;
+	private List<InputAdaptor> inputAdaptors;
 
 	public WhirlpoolWindow() {
 		questionDao = new QuestionDao();
+		inputAdaptors = new Stack<InputAdaptor>();
 
 		initComponents();
 		navigator.addMouseListener(new MouseListener() {
@@ -89,9 +108,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         launchVideoButton = new javax.swing.JButton();
-        displayProblemButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         videoPathLabel = new javax.swing.JLabel();
+        displayProblemButton = new javax.swing.JToggleButton();
+        questionPane = new com.jericbryledy.whirlpool.app.QuestionPanel();
+        doneButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,6 +131,8 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("file:");
+
         displayProblemButton.setText("Display Problem");
         displayProblemButton.setEnabled(false);
         displayProblemButton.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +141,24 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("file:");
+        javax.swing.GroupLayout questionPaneLayout = new javax.swing.GroupLayout(questionPane);
+        questionPane.setLayout(questionPaneLayout);
+        questionPaneLayout.setHorizontalGroup(
+            questionPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        questionPaneLayout.setVerticalGroup(
+            questionPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        doneButton.setText("Done");
+        doneButton.setEnabled(false);
+        doneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doneButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,8 +173,12 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(videoPathLabel))
-                    .addComponent(displayProblemButton))
-                .addContainerGap(303, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(displayProblemButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(doneButton))
+                    .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,9 +188,13 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                     .addComponent(launchVideoButton)
                     .addComponent(jLabel1)
                     .addComponent(videoPathLabel))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(displayProblemButton)
+                    .addComponent(doneButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(displayProblemButton)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(373, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -159,14 +207,14 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -190,8 +238,20 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	}//GEN-LAST:event_launchVideoButtonActionPerformed
 
 	private void displayProblemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayProblemButtonActionPerformed
-		
+		if (displayProblemButton.isSelected()) {
+			setupQuestionPane();
+			doneButton.setEnabled(true);
+		} else {
+			questionPane.clear();
+			doneButton.setEnabled(false);
+		}
 	}//GEN-LAST:event_displayProblemButtonActionPerformed
+
+	private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
+		for (InputAdaptor adaptor : inputAdaptors) {
+			System.out.println(adaptor.getName() + ": " + adaptor.getValue());
+		}
+	}//GEN-LAST:event_doneButtonActionPerformed
 
 	private void triggerVideoPathChanged() {
 		if (curVideoPath == null) {
@@ -201,6 +261,8 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 			videoPathLabel.setText(curVideoPath);
 			launchVideoButton.setEnabled(true);
 			curQuestion = questionDao.getByLectureId(curTreeItem.getItemId());
+			displayProblemButton.setSelected(false);
+
 			displayProblemButton.setEnabled(curQuestion != null);
 		}
 	}
@@ -224,7 +286,8 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		});
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton displayProblemButton;
+    private javax.swing.JToggleButton displayProblemButton;
+    private javax.swing.JButton doneButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -232,6 +295,62 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JButton launchVideoButton;
     private javax.swing.JTree navigator;
+    private com.jericbryledy.whirlpool.app.QuestionPanel questionPane;
     private javax.swing.JLabel videoPathLabel;
     // End of variables declaration//GEN-END:variables
+
+	private void setupQuestionPane() {
+		inputAdaptors.clear();
+
+		try {
+			BufferedImage image = ImageIO.read(new File(curQuestion.getImage()));
+			questionPane.setBackground(image);
+		} catch (IOException ex) {
+			Logger.getLogger(WhirlpoolWindow.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		FormInput[] formInputs = curQuestion.getForm().getInputs();
+		for (FormInput input : formInputs) {
+			InputAdaptor adaptor = null;
+			if (input instanceof TextInput) {
+				TextField field = setupTextInput((TextInput) input);
+				adaptor = new TextInputAdaptor(input.getName(), field);
+			} else if (input instanceof RadioInput) {
+				ButtonGroup group = setupRadioInput((RadioInput) input);
+				adaptor = new RadioInputAdaptor(input.getName(), group);
+			}
+
+			inputAdaptors.add(adaptor);
+		}
+
+		repaint();
+	}
+
+	private TextField setupTextInput(TextInput text) {
+		TextField field = new TextField();
+
+		field.setBounds(text.getX(), text.getY(), 120, 25);
+
+		questionPane.add(field);
+
+		return field;
+	}
+
+	private ButtonGroup setupRadioInput(RadioInput input) {
+		ButtonGroup group = new ButtonGroup();
+
+		RadioChoice[] choices = input.getChoices();
+		for (RadioChoice choice : choices) {
+			JRadioButton radioButton = new JRadioButton();
+			Dimension prefferedSize = radioButton.getPreferredSize();
+			radioButton.setBounds(choice.getX() - prefferedSize.width / 2, choice.getY() - prefferedSize.height / 2, prefferedSize.width, prefferedSize.height);
+			radioButton.setActionCommand(choice.getValue());
+
+			questionPane.add(radioButton);
+
+			group.add(radioButton);
+		}
+
+		return group;
+	}
 }
