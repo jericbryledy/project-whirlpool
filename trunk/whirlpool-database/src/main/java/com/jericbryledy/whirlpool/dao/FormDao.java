@@ -7,6 +7,7 @@ package com.jericbryledy.whirlpool.dao;
 import com.jericbryledy.whirlpool.bean.Form;
 import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
 import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
+import com.jericbryledy.whirlpool.bean.forminput.TextInput;
 import java.util.List;
 import java.util.Stack;
 import org.w3c.dom.NamedNodeMap;
@@ -30,11 +31,35 @@ public class FormDao {
 
 		StringBuilder mainQuery = new StringBuilder();
 		mainQuery.append("class/units/unit/lectures/lecture[@id=\"").append(lectureId).append("\"]/question/form/");
-		NodeList formNode = helper.retreiveNodeList(mainQuery.toString() + "radio");
 
-		int len = formNode.getLength();
+		NodeList textList = helper.retreiveNodeList(mainQuery.toString() + "text");
+		textHelper(form, textList);
+
+		NodeList radioList = helper.retreiveNodeList(mainQuery.toString() + "radio");
+		radioHelper(form, radioList);
+
+		return form;
+	}
+
+	private void textHelper(Form form, NodeList textList) {
+		int len = textList.getLength();
 		for (int i = 0; i < len; ++i) {
-			Node radioNode = formNode.item(i);
+			Node textNode = textList.item(i);
+
+			TextInput text = new TextInput();
+			NamedNodeMap att = textNode.getAttributes();
+			text.setName(att.getNamedItem("name").getTextContent());
+			text.setX(Integer.parseInt(att.getNamedItem("x").getTextContent()));
+			text.setY(Integer.parseInt(att.getNamedItem("y").getTextContent()));
+
+			form.addInput(text);
+		}
+	}
+
+	private void radioHelper(Form form, NodeList radioList) {
+		int len = radioList.getLength();
+		for (int i = 0; i < len; ++i) {
+			Node radioNode = radioList.item(i);
 
 			RadioInput radio = new RadioInput();
 			radio.setName(radioNode.getAttributes().getNamedItem("name").getTextContent());
@@ -61,8 +86,7 @@ public class FormDao {
 			}
 
 			radio.setChoices(radioChoices);
+			form.addInput(radio);
 		}
-
-		return form;
 	}
 }
