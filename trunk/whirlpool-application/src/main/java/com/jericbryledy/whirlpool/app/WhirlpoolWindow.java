@@ -10,7 +10,9 @@
  */
 package com.jericbryledy.whirlpool.app;
 
+import com.jericbryledy.whirlpool.bean.Question;
 import com.jericbryledy.whirlpool.bean.WhirlpoolTreeItem;
+import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -26,9 +28,14 @@ import javax.swing.tree.TreePath;
  */
 public class WhirlpoolWindow extends javax.swing.JFrame {
 
+	private QuestionDao questionDao;
+	private WhirlpoolTreeItem curTreeItem;
 	private String curVideoPath;
+	private Question curQuestion;
 
 	public WhirlpoolWindow() {
+		questionDao = new QuestionDao();
+
 		initComponents();
 		navigator.addMouseListener(new MouseListener() {
 
@@ -40,7 +47,8 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 				} else {
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 					if (node.getUserObject() instanceof WhirlpoolTreeItem) {
-						String selectedVideoPath = ((WhirlpoolTreeItem) node.getUserObject()).getItemValue();
+						curTreeItem = (WhirlpoolTreeItem) node.getUserObject();
+						String selectedVideoPath = curTreeItem.getItemValue();
 						if (selectedVideoPath == null) {
 							curVideoPath = null;
 							triggerVideoPathChanged();
@@ -104,6 +112,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 
         displayProblemButton.setText("Display Problem");
         displayProblemButton.setEnabled(false);
+        displayProblemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayProblemButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("file:");
 
@@ -176,14 +189,19 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		}
 	}//GEN-LAST:event_launchVideoButtonActionPerformed
 
-	private void triggerVideoPathChanged() {
+	private void displayProblemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayProblemButtonActionPerformed
+		
+	}//GEN-LAST:event_displayProblemButtonActionPerformed
 
+	private void triggerVideoPathChanged() {
 		if (curVideoPath == null) {
 			videoPathLabel.setText("");
 			launchVideoButton.setEnabled(false);
 		} else {
 			videoPathLabel.setText(curVideoPath);
 			launchVideoButton.setEnabled(true);
+			curQuestion = questionDao.getByLectureId(curTreeItem.getItemId());
+			displayProblemButton.setEnabled(curQuestion != null);
 		}
 	}
 
@@ -196,7 +214,6 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		} catch (Exception ex) {
 			java.util.logging.Logger.getLogger(WhirlpoolWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
-		//</editor-fold>
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {

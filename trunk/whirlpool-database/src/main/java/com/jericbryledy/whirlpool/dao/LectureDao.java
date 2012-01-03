@@ -21,7 +21,7 @@ public class LectureDao {
 
 	public Lecture[] getByUnitId(String unitId) {
 		Lecture[] lectures = null;
-		NodeList list = helper.retreive("class/units/unit[@id=\"" + unitId + "\"]/lectures/lecture/@id");
+		NodeList list = helper.retreiveNodeList("class/units/unit[@id=\"" + unitId + "\"]/lectures/lecture/@id");
 
 		int size = list.getLength();
 		lectures = new Lecture[size];

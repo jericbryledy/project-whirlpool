@@ -43,6 +43,10 @@ public class Unit implements WhirlpoolTreeItem {
 		return getName();
 	}
 
+	public String getItemId() {
+		return id;
+	}
+
 	public String getItemName() {
 		return getName();
 	}

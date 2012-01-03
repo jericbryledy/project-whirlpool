@@ -10,7 +10,5 @@ package com.jericbryledy.whirlpool.bean.forminput;
  */
 public interface FormInput {
 
-	public String getInputId();
-
-	public String getINputValue();
+	public String getName();
 }

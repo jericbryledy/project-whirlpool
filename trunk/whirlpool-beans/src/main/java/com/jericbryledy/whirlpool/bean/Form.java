@@ -21,11 +21,11 @@ public class Form {
 	}
 
 	public void addInput(FormInput input) {
-		inputs.put(input.getInputId(), input);
+		inputs.put(input.getName(), input);
 	}
 
-	public FormInput getInput(String id) {
-		return inputs.get(id);
+	public FormInput getInput(String name) {
+		return inputs.get(name);
 	}
 
 	public void clear() {

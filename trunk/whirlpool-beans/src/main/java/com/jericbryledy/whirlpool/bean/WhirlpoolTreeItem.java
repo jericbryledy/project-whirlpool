@@ -10,6 +10,8 @@ package com.jericbryledy.whirlpool.bean;
  */
 public interface WhirlpoolTreeItem {
 
+	public String getItemId();
+
 	public String getItemName();
 
 	public String getItemValue();
