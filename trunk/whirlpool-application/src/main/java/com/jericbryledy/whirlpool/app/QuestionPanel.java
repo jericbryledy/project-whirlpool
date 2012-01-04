@@ -139,9 +139,8 @@ public class QuestionPanel extends java.awt.Panel {
 
 		RadioChoice[] choices = input.getChoices();
 		for (RadioChoice choice : choices) {
-			JRadioButton radioButton = new WhirlpoolRadioButton();
-			Dimension prefferedSize = radioButton.getPreferredSize();
-			radioButton.setBounds(choice.getX() - prefferedSize.width / 2, choice.getY() - prefferedSize.height / 2, prefferedSize.width, prefferedSize.height);
+			JRadioButton radioButton = new WhirlpoolRadioButton(13, 13);
+			radioButton.setLocation(choice.getX(), choice.getY());
 			radioButton.setActionCommand(choice.getValue());
 
 			add(radioButton);
@@ -153,10 +152,9 @@ public class QuestionPanel extends java.awt.Panel {
 	}
 
 	private JCheckBox setupCheckInput(CheckInput check) {
-		JCheckBox checkField = new WhirlpoolCheckBox();
+		JCheckBox checkField = new WhirlpoolCheckBox(13, 13);
+		checkField.setLocation(check.getX(), check.getY());
 
-		Dimension prefferedSize = checkField.getPreferredSize();
-		checkField.setBounds(check.getX(), check.getY(), prefferedSize.width, prefferedSize.height);
 		add(checkField);
 
 		return checkField;

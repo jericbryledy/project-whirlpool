@@ -13,8 +13,9 @@ import javax.swing.JCheckBox;
  */
 public class WhirlpoolCheckBox extends JCheckBox {
 
-	public WhirlpoolCheckBox() {
-		super(new WhirlpoolCheckboxIcon());
+	public WhirlpoolCheckBox(int width, int height) {
+		super(new WhirlpoolCheckboxIcon(width, height));
 		setBackground(Color.WHITE);
+		setSize(width, height);
 	}
 }

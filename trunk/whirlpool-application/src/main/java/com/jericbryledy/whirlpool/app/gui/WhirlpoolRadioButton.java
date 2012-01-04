@@ -13,9 +13,9 @@ import javax.swing.JRadioButton;
  */
 public class WhirlpoolRadioButton extends JRadioButton {
 
-	public WhirlpoolRadioButton() {
-		super(new WhirlpoolRadioIcon());
+	public WhirlpoolRadioButton(int width, int height) {
+		super(new WhirlpoolRadioIcon(width, height));
 		setBackground(Color.WHITE);
+		setSize(width, height);
 	}
-	
 }
