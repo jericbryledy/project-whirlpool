@@ -4,6 +4,7 @@
  */
 package com.jericbryledy.whirlpool.app.adaptor;
 
+import java.awt.Component;
 import javax.swing.JCheckBox;
 
 /**
@@ -41,5 +42,9 @@ public class CheckAdaptor implements InputAdaptor {
 
 	public String getValue() {
 		return checkBox.isSelected() ? "true" : "false";
+	}
+
+	public Component[] getComponents() {
+		return new Component[]{checkBox};
 	}
 }

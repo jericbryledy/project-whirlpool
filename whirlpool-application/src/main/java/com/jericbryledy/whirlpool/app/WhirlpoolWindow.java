@@ -12,6 +12,7 @@ package com.jericbryledy.whirlpool.app;
 
 import com.jericbryledy.whirlpool.bean.Question;
 import com.jericbryledy.whirlpool.bean.WhirlpoolTreeItem;
+import com.jericbryledy.whirlpool.dao.AnswerDao;
 import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
@@ -29,12 +30,14 @@ import javax.swing.tree.TreePath;
 public class WhirlpoolWindow extends javax.swing.JFrame {
 
 	private QuestionDao questionDao;
+	private AnswerDao answerDao;
 	private WhirlpoolTreeItem curTreeItem;
 	private String curVideoPath;
 	private Question curQuestion;
 
 	public WhirlpoolWindow() {
 		questionDao = new QuestionDao();
+		answerDao = new AnswerDao();
 
 		initComponents();
 		navigator.addMouseListener(new MouseListener() {
@@ -229,9 +232,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	}//GEN-LAST:event_displayProblemButtonActionPerformed
 
 	private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
-//		for (InputAdaptor adaptor : inputAdaptors) {
-//			System.out.println(adaptor.getName() + ": " + adaptor.getValue());
-//		}
+		questionPane.checkAnswers(answerDao.getByLectureId(curTreeItem.getItemId()));
 	}//GEN-LAST:event_doneButtonActionPerformed
 
 	private void triggerVideoPathChanged() {

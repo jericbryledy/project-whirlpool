@@ -14,12 +14,17 @@ import com.jericbryledy.whirlpool.app.adaptor.CheckAdaptor;
 import com.jericbryledy.whirlpool.app.adaptor.InputAdaptor;
 import com.jericbryledy.whirlpool.app.adaptor.RadioInputAdaptor;
 import com.jericbryledy.whirlpool.app.adaptor.TextInputAdaptor;
+import com.jericbryledy.whirlpool.app.gui.WhirlpoolCheckBox;
+import com.jericbryledy.whirlpool.app.gui.WhirlpoolRadioButton;
+import com.jericbryledy.whirlpool.bean.AnswerKey;
 import com.jericbryledy.whirlpool.bean.Question;
 import com.jericbryledy.whirlpool.bean.forminput.CheckInput;
 import com.jericbryledy.whirlpool.bean.forminput.FormInput;
 import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
 import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
 import com.jericbryledy.whirlpool.bean.forminput.TextInput;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.TextField;
@@ -40,7 +45,7 @@ import javax.swing.JRadioButton;
  * @author Jeric Bryle Sy Dy
  */
 public class QuestionPanel extends java.awt.Panel {
-
+	
 	private List<InputAdaptor> inputAdaptors;
 	private BufferedImage background;
 
@@ -49,13 +54,13 @@ public class QuestionPanel extends java.awt.Panel {
 		inputAdaptors = new Stack<InputAdaptor>();
 		initComponents();
 	}
-
+	
 	@Override
 	public void paint(Graphics g) {
 		if (background != null) {
 			g.drawImage(background, 0, 0, null);
 		}
-
+		
 		super.paint(g);
 	}
 
@@ -77,27 +82,27 @@ public class QuestionPanel extends java.awt.Panel {
 		Dimension imageSize = new Dimension(background.getWidth(), background.getHeight());
 		setupSize(imageSize);
 	}
-
+	
 	private void setupSize(Dimension dim) {
 		setPreferredSize(dim);
 		setSize(dim);
 	}
-
+	
 	public void clear() {
 		background = null;
 		setupSize(new Dimension(1, 1));
 	}
-
+	
 	public void setup(Question question) {
 		inputAdaptors.clear();
-
+		
 		try {
 			BufferedImage image = ImageIO.read(new File(question.getImage()));
 			setBackground(image);
 		} catch (IOException ex) {
 			Logger.getLogger(WhirlpoolWindow.class.getName()).log(Level.SEVERE, null, ex);
 		}
-
+		
 		FormInput[] formInputs = question.getForm().getInputs();
 		for (FormInput input : formInputs) {
 			InputAdaptor adaptor = null;
@@ -111,47 +116,64 @@ public class QuestionPanel extends java.awt.Panel {
 				JCheckBox check = setupCheckInput((CheckInput) input);
 				adaptor = new CheckAdaptor(input.getName(), check);
 			}
-
+			
 			inputAdaptors.add(adaptor);
 		}
-
+		
 		repaint();
 	}
-
+	
 	private TextField setupTextInput(TextInput text) {
 		TextField field = new TextField();
-
+		
 		field.setBounds(text.getX(), text.getY(), 120, 25);
 		add(field);
-
+		
 		return field;
 	}
-
+	
 	private ButtonGroup setupRadioInput(RadioInput input) {
 		ButtonGroup group = new ButtonGroup();
-
+		
 		RadioChoice[] choices = input.getChoices();
 		for (RadioChoice choice : choices) {
-			JRadioButton radioButton = new JRadioButton();
+			JRadioButton radioButton = new WhirlpoolRadioButton();
 			Dimension prefferedSize = radioButton.getPreferredSize();
 			radioButton.setBounds(choice.getX() - prefferedSize.width / 2, choice.getY() - prefferedSize.height / 2, prefferedSize.width, prefferedSize.height);
 			radioButton.setActionCommand(choice.getValue());
-
+			
 			add(radioButton);
-
+			
 			group.add(radioButton);
 		}
-
+		
 		return group;
 	}
-
+	
 	private JCheckBox setupCheckInput(CheckInput check) {
-		JCheckBox checkField = new JCheckBox();
-
+		JCheckBox checkField = new WhirlpoolCheckBox();
+		
 		Dimension prefferedSize = checkField.getPreferredSize();
 		checkField.setBounds(check.getX(), check.getY(), prefferedSize.width, prefferedSize.height);
 		add(checkField);
-
+		
 		return checkField;
+	}
+	
+	public void checkAnswers(AnswerKey key) {
+		Color correctColor = new Color(0.807843137f, 1.0f, 0.847058824f);
+		Color incorrectColor = new Color(1.0f, 0.682352941f, 0.662745098f);
+		for (InputAdaptor adaptor : inputAdaptors) {
+			Component[] comps = adaptor.getComponents();
+			if (key.checkAnswer(adaptor.getName(), adaptor.getValue())) {
+				for (Component comp : comps) {
+					comp.setBackground(correctColor);
+				}
+			} else {
+				for (Component comp : comps) {
+					comp.setBackground(incorrectColor);
+				}
+			}
+		}
 	}
 }
