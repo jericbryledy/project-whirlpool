@@ -15,12 +15,14 @@ import com.jericbryledy.whirlpool.bean.WhirlpoolTreeItem;
 import com.jericbryledy.whirlpool.dao.AnswerDao;
 import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
@@ -40,39 +42,16 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		answerDao = new AnswerDao();
 
 		initComponents();
-		navigator.addMouseListener(new MouseListener() {
+		navigator.addTreeSelectionListener(new TreeSelectionListener() {
 
-			public void mouseClicked(MouseEvent e) {
-				TreePath path = navigator.getSelectionPath();
-				if (path == null) {
-					curVideoPath = null;
-					triggerVideoPathChanged();
-				} else {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-					if (node.getUserObject() instanceof WhirlpoolTreeItem) {
-						curTreeItem = (WhirlpoolTreeItem) node.getUserObject();
-						String selectedVideoPath = curTreeItem.getItemValue();
-						if (selectedVideoPath == null) {
-							curVideoPath = null;
-							triggerVideoPathChanged();
-						} else if (curVideoPath == null || !curVideoPath.equals(selectedVideoPath)) {
-							curVideoPath = selectedVideoPath;
-							triggerVideoPathChanged();
-						}
-					}
+			public void valueChanged(TreeSelectionEvent e) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
+				if (node.getUserObject() instanceof WhirlpoolTreeItem) {
+					curTreeItem = (WhirlpoolTreeItem) node.getUserObject();
+					String selectedVideoPath = curTreeItem.getItemValue();
+					hideProblem();
+					setVideoPath(selectedVideoPath);
 				}
-			}
-
-			public void mousePressed(MouseEvent e) {
-			}
-
-			public void mouseReleased(MouseEvent e) {
-			}
-
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			public void mouseExited(MouseEvent e) {
 			}
 		});
 	}
@@ -97,6 +76,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         displayProblemButton = new javax.swing.JToggleButton();
         questionPane = new com.jericbryledy.whirlpool.app.QuestionPanel();
         doneButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,6 +124,14 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
             }
         });
 
+        nextButton.setText("Next");
+        nextButton.setEnabled(false);
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -160,9 +148,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(displayProblemButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(doneButton))
+                        .addComponent(doneButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nextButton))
                     .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(545, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +165,8 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(displayProblemButton)
-                    .addComponent(doneButton))
+                    .addComponent(doneButton)
+                    .addComponent(nextButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(373, Short.MAX_VALUE))
@@ -212,40 +203,103 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 //		Player player = Manager.createPlayer(new URL("file", null, curVideoPath.replaceAll(" ", "%20")));
 //		player.start();
 
+		String videoPath = getVideoPath();
+
 		try {
-			Desktop.getDesktop().open(new File(curVideoPath));
+			Desktop.getDesktop().open(new File(videoPath));
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(this, "No file associated with format: " + curVideoPath.substring(curVideoPath.lastIndexOf(".")));
+			JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".")) + "format");
 		} catch (IllegalArgumentException ex) {
-			JOptionPane.showMessageDialog(this, "File not found: " + curVideoPath);
+			JOptionPane.showMessageDialog(this, "File not found: " + videoPath);
 		}
 	}//GEN-LAST:event_launchVideoButtonActionPerformed
 
 	private void displayProblemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayProblemButtonActionPerformed
 		if (displayProblemButton.isSelected()) {
-			questionPane.setup(curQuestion);
-			doneButton.setEnabled(true);
+			showProblem();
 		} else {
-			questionPane.clear();
-			doneButton.setEnabled(false);
+			hideProblem();
 		}
 	}//GEN-LAST:event_displayProblemButtonActionPerformed
 
 	private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
-		questionPane.checkAnswers(answerDao.getByLectureId(curTreeItem.getItemId()));
+		boolean isPerfect = questionPane.checkAnswers(answerDao.getByLectureId(curTreeItem.getItemId()));
+		if (isPerfect) {
+			nextButton.setEnabled(true);
+		}
 	}//GEN-LAST:event_doneButtonActionPerformed
 
-	private void triggerVideoPathChanged() {
-		if (curVideoPath == null) {
+	private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+		traverseToNextLecture();
+	}//GEN-LAST:event_nextButtonActionPerformed
+
+	private void setVideoPath(String videoPath) {
+		curVideoPath = videoPath;
+		if (videoPath == null) {
 			videoPathLabel.setText("");
 			launchVideoButton.setEnabled(false);
 		} else {
-			videoPathLabel.setText(curVideoPath);
+			videoPathLabel.setText(videoPath);
 			launchVideoButton.setEnabled(true);
 			curQuestion = questionDao.getByLectureId(curTreeItem.getItemId());
 			displayProblemButton.setSelected(false);
 
-			displayProblemButton.setEnabled(curQuestion != null);
+			if (curQuestion != null) {
+				displayProblemButton.setEnabled(true);
+				nextButton.setEnabled(false);
+			} else {
+				nextButton.setEnabled(true);
+			}
+		}
+	}
+
+	private String getVideoPath() {
+		return curVideoPath;
+	}
+
+	private void showProblem() {
+		questionPane.setup(curQuestion);
+		doneButton.setEnabled(true);
+	}
+
+	private void hideProblem() {
+		questionPane.clear();
+		doneButton.setEnabled(false);
+	}
+
+	private void traverseToNextLecture() {
+		TreeModel model = navigator.getModel();
+		TreePath selectedPath = navigator.getSelectionPath();
+		TreePath parentPath = selectedPath.getParentPath();
+		TreeNode selectedNode = (TreeNode) selectedPath.getLastPathComponent();
+		TreeNode parentNode = (TreeNode) parentPath.getLastPathComponent();
+		int curIndex = model.getIndexOfChild(parentNode, selectedNode);
+		int siblingsCnt = model.getChildCount(parentNode);
+
+		// next sibling
+		if (curIndex + 1 < siblingsCnt) {
+			TreeNode nextNode = (TreeNode) model.getChild(parentNode, curIndex + 1);
+			Object[] arrPath = selectedPath.getPath();
+			arrPath[arrPath.length - 1] = nextNode;
+			navigator.setSelectionPath(new TreePath(arrPath));
+		} else {
+			// next cousin
+			TreePath grandParentPath = parentPath.getParentPath();
+			TreeNode grandParentNode = (TreeNode) grandParentPath.getLastPathComponent();
+			int parentIndex = model.getIndexOfChild(grandParentNode, parentNode);
+			int parentsSiblingsCnt = model.getChildCount(grandParentNode);
+
+			if (parentIndex + 1 < parentsSiblingsCnt) {
+				TreeNode nextParentSiblingNode = (TreeNode) model.getChild(grandParentNode, parentIndex + 1);
+				if (model.getChildCount(nextParentSiblingNode) > 0) {
+					TreeNode nextCousinNode = (TreeNode) model.getChild(nextParentSiblingNode, 0);
+					Object[] arrPath = selectedPath.getPath();
+					arrPath[arrPath.length - 2] = nextParentSiblingNode;
+					arrPath[arrPath.length - 1] = nextCousinNode;
+
+					navigator.setSelectionPath(new TreePath(arrPath));
+				}
+			}
 		}
 	}
 
@@ -277,6 +331,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JButton launchVideoButton;
     private javax.swing.JTree navigator;
+    private javax.swing.JButton nextButton;
     private com.jericbryledy.whirlpool.app.QuestionPanel questionPane;
     private javax.swing.JLabel videoPathLabel;
     // End of variables declaration//GEN-END:variables

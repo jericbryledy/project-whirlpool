@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>whirlpool-parent</artifactId>
 		<groupId>com.jericbryledy.whirlpool</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	
 	<groupId>com.jericbryledy.whirlpool</groupId>
 	<artifactId>whirlpool-application</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Whirlpool Application</name>
 	<url>http://www.jericbryledy.com</url>
 	
@@ -19,10 +19,10 @@
 	</properties>
 	
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>javax.media</groupId>
 			<artifactId>jmf</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -33,5 +33,31 @@
 			<groupId>com.jericbryledy.whirlpool</groupId>
 			<artifactId>whirlpool-database</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.jericbryledy.whirlpool.app.WhirlpoolWindow</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
