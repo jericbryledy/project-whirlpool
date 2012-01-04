@@ -4,6 +4,7 @@
  */
 package com.jericbryledy.whirlpool.app.adaptor;
 
+import java.awt.Component;
 import java.awt.TextField;
 
 /**
@@ -41,5 +42,9 @@ public class TextInputAdaptor implements InputAdaptor {
 
 	public String getValue() {
 		return field.getText();
+	}
+
+	public Component[] getComponents() {
+		return new Component[]{field};
 	}
 }

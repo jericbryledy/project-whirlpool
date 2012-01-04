@@ -4,6 +4,9 @@
  */
 package com.jericbryledy.whirlpool.app.adaptor;
 
+import java.awt.Component;
+import java.util.Enumeration;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 
 /**
@@ -47,5 +50,17 @@ public class RadioInputAdaptor implements InputAdaptor {
 		}
 
 		return value;
+	}
+
+	public Component[] getComponents() {
+		int len = group.getButtonCount();
+		Component[] arr = new Component[len];
+		Enumeration<AbstractButton> en = group.getElements();
+
+		for (int i = 0; i < len; ++i) {
+			arr[i] = en.nextElement();
+		}
+
+		return arr;
 	}
 }
