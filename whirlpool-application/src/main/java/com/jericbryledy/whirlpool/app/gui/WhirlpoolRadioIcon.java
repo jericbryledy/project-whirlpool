@@ -15,22 +15,48 @@ import javax.swing.JRadioButton;
  */
 public class WhirlpoolRadioIcon implements Icon {
 
+	private int iconWidth;
+	private int iconHeight;
+
+	public WhirlpoolRadioIcon() {
+	}
+
+	public WhirlpoolRadioIcon(int iconWidth, int iconHeight) {
+		this.iconWidth = iconWidth;
+		this.iconHeight = iconHeight;
+	}
+
 	public void paintIcon(Component c, Graphics g, int x, int y) {
+		int drawWidth = getIconWidth() - 1;
+		int drawHeight = getIconHeight() - 1;
+
 		g.setColor(c.getBackground());
-		g.fillOval(x + 2, y + 2, 13, 13);
+		g.fillOval(0, 0, drawWidth, drawHeight);
 		g.setColor(c.getForeground());
-		g.drawOval(x + 2, y + 2, 13, 13);
+		g.drawOval(0, 0, drawWidth, drawHeight);
 
 		if (((JRadioButton) c).isSelected()) {
-			g.fillOval(x + 5, y + 5, 7, 7);
+			int halfWidth = iconWidth / 2;
+			int halfHeight = iconHeight / 2;
+			int fourthWidth = iconWidth / 4;
+			int fourthHeight = iconHeight / 4;
+			g.fillOval(fourthWidth, fourthHeight, halfWidth, halfHeight);
 		}
 	}
 
 	public int getIconWidth() {
-		return 16;
+		return iconWidth;
+	}
+
+	public void setIconWidth(int iconWidth) {
+		this.iconWidth = iconWidth;
 	}
 
 	public int getIconHeight() {
-		return 16;
+		return iconHeight;
+	}
+
+	public void setIconHeight(int iconHeight) {
+		this.iconHeight = iconHeight;
 	}
 }

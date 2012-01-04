@@ -17,6 +17,8 @@ import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -79,6 +81,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         nextButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Whirlpool eLearning");
 
         jSplitPane1.setDividerLocation(200);
 
@@ -152,7 +155,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextButton))
                     .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(545, Short.MAX_VALUE))
+                .addContainerGap(547, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +172,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                     .addComponent(nextButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(373, Short.MAX_VALUE))
+                .addContainerGap(386, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -208,7 +211,19 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		try {
 			Desktop.getDesktop().open(new File(videoPath));
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".")) + "format");
+//			JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
+			// apparently there's a bug in Desktop.open(), will not work with some OS
+			// (http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6780505)
+			// quick fix:
+			if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+				try {
+					Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + new File(videoPath).getAbsolutePath().replaceAll(" ", "%20"));
+				} catch (IOException ex1) {
+					JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
+			}
 		} catch (IllegalArgumentException ex) {
 			JOptionPane.showMessageDialog(this, "File not found: " + videoPath);
 		}
