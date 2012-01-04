@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>whirlpool-parent</artifactId>
 		<groupId>com.jericbryledy.whirlpool</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	
 	<groupId>com.jericbryledy.whirlpool</groupId>
 	<artifactId>whirlpool-beans</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>Whirlpool Beans</name>
 	<url>http://www.jericbryledy.com</url>
 	

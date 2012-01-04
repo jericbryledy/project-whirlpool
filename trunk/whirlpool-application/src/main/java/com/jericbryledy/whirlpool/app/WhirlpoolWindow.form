@@ -91,10 +91,12 @@
                                   <Component id="displayProblemButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="doneButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="nextButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="questionPane" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="597" max="32767" attributes="0"/>
+                          <EmptySpace pref="545" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -111,6 +113,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="displayProblemButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="doneButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="nextButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="questionPane" min="-2" max="-2" attributes="0"/>
@@ -167,6 +170,15 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="doneButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="nextButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Next"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nextButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

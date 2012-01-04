@@ -28,6 +28,6 @@ public class WhirlpoolXPathHelper extends XPathHelper {
 	}
 
 	private WhirlpoolXPathHelper() throws Exception {
-		super("ai-class.xml");
+		super(new ClassFinder().getClassFile());
 	}
 }

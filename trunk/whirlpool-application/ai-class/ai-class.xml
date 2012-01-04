@@ -1,0 +1,68 @@
+<class>
+	<name>Introduction to AI Class by Prof. Thrun and Prof. Norvig</name>
+	<units>
+		<unit id="00">
+			<name>Example Unit (for testing Purpose only)</name>
+			<lectures>
+				<lecture id="00-00">
+					<name>Example Lecture (for testing Purpose only)</name>
+					<video>ai-class/ai-res/01-02.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-02.jpg</image>
+						<form>
+							<radio name="q1">
+								<choice x="126" y="208" value="wetware" />
+								<choice x="127" y="268" value="formula" />
+								<choice x="127" y="326" value="intelligent_agent" />
+							</radio>
+							<radio name="q2">
+								<choice x="10" y="10" value="wetware" />
+								<choice x="50" y="50" value="formula" />
+								<choice x="100" y="100" value="intelligent_agent" />
+							</radio>
+							<text name="q3" x="200" y="10" />
+							<check name="q4" x="10" y="200" />
+						</form>
+						<answers>
+							<answer name="q1" value="intelligent_agent" />
+							<answer name="q2" value="formula" />
+							<answer name="q3" value="hello" />
+							<answer name="q4" value="true" />
+						</answers>
+	<!--					<explanation>01-02-exp.mp4</explanation>-->
+					</question>
+				</lecture>
+			</lectures>
+		</unit>
+		<unit id="01">
+			<name>Welcome to AI</name>
+			<lectures>
+				<lecture id="01-01">
+					<name>Introduction</name>
+					<video>ai-class/ai-res/01-01.mp4</video>
+				</lecture>
+				<lecture id="01-02">
+					<name>Course Overview</name>
+					<video>ai-class/ai-res/01-02.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-02.jpg</image>
+						<form>
+							<radio name="q1">
+								<choice x="126" y="208" value="wetware" />
+								<choice x="127" y="268" value="formula" />
+								<choice x="127" y="326" value="intelligent_agent" />
+							</radio>
+						</form>
+						<answers>
+							<answer name="q1" value="intelligent_agent" />
+						</answers>
+	<!--					<explanation>01-02-exp.mp4</explanation>-->
+					</question>
+				</lecture>
+			</lectures>
+		</unit>
+		<unit id="02">
+			<name>Problem Solving</name>
+		</unit>
+	</units>
+</class>
