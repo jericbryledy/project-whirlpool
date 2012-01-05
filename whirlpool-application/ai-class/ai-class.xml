@@ -21,15 +21,17 @@
 								<choice x="100" y="100" value="intelligent_agent" />
 							</radio>
 							<text name="q3" x="200" y="10" />
-							<check name="q4" x="10" y="200" />
+							<checks name="q4">
+								<check value="test" x="10" y="200" />
+							</checks>
 						</form>
 						<answers>
 							<answer name="q1" value="intelligent_agent" />
 							<answer name="q2" value="formula" />
 							<answer name="q3" value="hello" />
-							<answer name="q4" value="true" />
+							<answer name="q4" value="test" />
 						</answers>
-						<explanation>01-02-exp.mp4</explanation>
+						<explanation>ai-class/ai-res/01-02-exp.mp4</explanation>
 					</question>
 				</lecture>
 			</lectures>
@@ -64,20 +66,17 @@
 					<question>
 						<image>ai-class/ai-res/01-03.jpg</image>
 						<form>
-							<check name="finance" x="131" y="107" />
-							<check name="robotics" x="129" y="140" />
-							<check name="games" x="126" y="171" />
-							<check name="medicine" x="125" y="207" />
-							<check name="theweb" x="122" y="244" />
-							<check name="none" x="124" y="281" />
+							<checks name="q1">
+								<check value="finance" x="131" y="107" />
+								<check value="robotics" x="129" y="140" />
+								<check value="games" x="126" y="171" />
+								<check value="medicine" x="125" y="207" />
+								<check value="theweb" x="122" y="244" />
+								<check value="none" x="124" y="281" />
+							</checks>
 						</form>
 						<answers>
-							<answer name="finance" value="true" />
-							<answer name="robotics" value="true" />
-							<answer name="games" value="true" />
-							<answer name="medicine" value="true" />
-							<answer name="theweb" value="true" />
-							<answer name="none" value="false" />
+							<answer name="q1" value="finance robotics games medicine theweb" />
 						</answers>
 					</question>
 				</lecture>

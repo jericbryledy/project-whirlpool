@@ -4,6 +4,7 @@
  */
 package com.jericbryledy.whirlpool.bean;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -26,8 +27,14 @@ public class AnswerKey {
 		boolean isCorrect = false;
 		String correctAnswer = answers.get(id);
 
-		if (correctAnswer != null) {
-			isCorrect = correctAnswer.equals(checkAnswer);
+		if (correctAnswer != null && checkAnswer != null) {
+			String[] correctArr = correctAnswer.split("\\W+");
+			String[] checkArr = checkAnswer.split("\\W+");
+
+			Arrays.sort(correctArr);
+			Arrays.sort(checkArr);
+
+			isCorrect = Arrays.equals(correctArr, checkArr);
 		}
 
 		return isCorrect;

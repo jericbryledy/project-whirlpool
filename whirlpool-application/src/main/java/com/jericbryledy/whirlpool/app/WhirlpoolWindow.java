@@ -17,8 +17,6 @@ import com.jericbryledy.whirlpool.dao.QuestionDao;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -36,7 +34,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	private QuestionDao questionDao;
 	private AnswerDao answerDao;
 	private WhirlpoolTreeItem curTreeItem;
-	private String curVideoPath;
+	private String curLectureVideoPath;
 	private Question curQuestion;
 
 	public WhirlpoolWindow() {
@@ -79,6 +77,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         questionPane = new com.jericbryledy.whirlpool.app.QuestionPanel();
         doneButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
+        explanationButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Whirlpool eLearning");
@@ -135,6 +134,14 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
             }
         });
 
+        explanationButton.setText("Explanation");
+        explanationButton.setEnabled(false);
+        explanationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                explanationButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -153,9 +160,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(doneButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(explanationButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nextButton))
                     .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(547, Short.MAX_VALUE))
+                .addContainerGap(469, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,6 +178,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(displayProblemButton)
                     .addComponent(doneButton)
+                    .addComponent(explanationButton)
                     .addComponent(nextButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(questionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -200,33 +210,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void launchVideoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchVideoButtonActionPerformed
-		// no idea how to make mp4 files work with JMF (downloaded videos from youtube are mp4)
-		// maybe convert mp4 into supported format instead?
-		// or open with system/local media player?
-//		Player player = Manager.createPlayer(new URL("file", null, curVideoPath.replaceAll(" ", "%20")));
-//		player.start();
-
-		String videoPath = getVideoPath();
-
-		try {
-			Desktop.getDesktop().open(new File(videoPath));
-		} catch (IOException ex) {
-//			JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
-			// apparently there's a bug in Desktop.open(), will not work with some OS
-			// (http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6780505)
-			// quick fix:
-			if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-				try {
-					Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + new File(videoPath).getAbsolutePath().replaceAll(" ", "%20"));
-				} catch (IOException ex1) {
-					JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
-				}
-			} else {
-				JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
-			}
-		} catch (IllegalArgumentException ex) {
-			JOptionPane.showMessageDialog(this, "File not found: " + videoPath);
-		}
+		launchVideo(getLectureVideoPath());
 	}//GEN-LAST:event_launchVideoButtonActionPerformed
 
 	private void displayProblemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayProblemButtonActionPerformed
@@ -242,14 +226,21 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		if (isPerfect) {
 			nextButton.setEnabled(true);
 		}
+		if (curQuestion.getExplanation() != null) {
+			explanationButton.setEnabled(true);
+		}
 	}//GEN-LAST:event_doneButtonActionPerformed
 
 	private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
 		traverseToNextLecture();
 	}//GEN-LAST:event_nextButtonActionPerformed
 
+	private void explanationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_explanationButtonActionPerformed
+		launchVideo(getExplanationVideoPath());
+	}//GEN-LAST:event_explanationButtonActionPerformed
+
 	private void setVideoPath(String videoPath) {
-		curVideoPath = videoPath;
+		curLectureVideoPath = videoPath;
 		if (videoPath == null) {
 			videoPathLabel.setText("");
 			launchVideoButton.setEnabled(false);
@@ -258,18 +249,24 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 			launchVideoButton.setEnabled(true);
 			curQuestion = questionDao.getByLectureId(curTreeItem.getItemId());
 			displayProblemButton.setSelected(false);
+			explanationButton.setEnabled(false);
 
 			if (curQuestion != null) {
 				displayProblemButton.setEnabled(true);
 				nextButton.setEnabled(false);
 			} else {
+				displayProblemButton.setEnabled(false);
 				nextButton.setEnabled(true);
 			}
 		}
 	}
 
-	private String getVideoPath() {
-		return curVideoPath;
+	private String getLectureVideoPath() {
+		return curLectureVideoPath;
+	}
+
+	private String getExplanationVideoPath() {
+		return curQuestion.getExplanation();
 	}
 
 	private void showProblem() {
@@ -336,9 +333,37 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 			}
 		});
 	}
+
+	private void launchVideo(String videoPath) {
+		// no idea how to make mp4 files work with JMF (downloaded videos from youtube are mp4)
+		// maybe convert mp4 into supported format instead?
+		// or open with system/local media player?
+//		Player player = Manager.createPlayer(new URL("file", null, curVideoPath.replaceAll(" ", "%20")));
+//		player.start();
+		try {
+			Desktop.getDesktop().open(new File(videoPath));
+		} catch (IOException ex) {
+//			JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
+			// apparently there's a bug in Desktop.open(), will not work with some OS
+			// (http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6780505)
+			// quick fix:
+			if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+				try {
+					Runtime.getRuntime().exec(new String[]{"rundll32", "url.dll,FileProtocolHandler", new File(videoPath).getAbsolutePath()});
+				} catch (IOException ex1) {
+					JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "No file associated with " + videoPath.substring(videoPath.lastIndexOf(".") + 1) + " format");
+			}
+		} catch (IllegalArgumentException ex) {
+			JOptionPane.showMessageDialog(this, "File not found: " + videoPath);
+		}
+	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton displayProblemButton;
     private javax.swing.JButton doneButton;
+    private javax.swing.JButton explanationButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

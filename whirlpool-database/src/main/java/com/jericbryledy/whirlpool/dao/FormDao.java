@@ -6,6 +6,7 @@ package com.jericbryledy.whirlpool.dao;
 
 import com.jericbryledy.whirlpool.bean.Form;
 import com.jericbryledy.whirlpool.bean.forminput.CheckInput;
+import com.jericbryledy.whirlpool.bean.forminput.CheckList;
 import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
 import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
 import com.jericbryledy.whirlpool.bean.forminput.TextInput;
@@ -41,7 +42,7 @@ public class FormDao {
 			radioHelper(form, radioList);
 		}
 		{
-			NodeList checkList = helper.retreiveNodeList(mainQuery.toString() + "check");
+			NodeList checkList = helper.retreiveNodeList(mainQuery.toString() + "checks");
 			checkHelper(form, checkList);
 		}
 		return form;
@@ -96,18 +97,36 @@ public class FormDao {
 		}
 	}
 
-	private void checkHelper(Form form, NodeList checkList) {
-		int len = checkList.getLength();
+	private void checkHelper(Form form, NodeList checksNodeList) {
+		int len = checksNodeList.getLength();
 		for (int i = 0; i < len; ++i) {
-			Node checkNode = checkList.item(i);
+			Node checkNodeList = checksNodeList.item(i);
 
-			CheckInput check = new CheckInput();
-			NamedNodeMap att = checkNode.getAttributes();
-			check.setName(att.getNamedItem("name").getTextContent());
-			check.setX(Integer.parseInt(att.getNamedItem("x").getTextContent()));
-			check.setY(Integer.parseInt(att.getNamedItem("y").getTextContent()));
+			CheckList checkList = new CheckList();
+			checkList.setName(checkNodeList.getAttributes().getNamedItem("name").getTextContent());
+			List<CheckInput> checkInputs = new Stack<CheckInput>();
 
-			form.addInput(check);
+			NodeList checks = checkNodeList.getChildNodes();
+			int checkCnt = checks.getLength();
+
+			for (int j = 0; j < checkCnt; ++j) {
+				Node checkNode = checks.item(j);
+
+				if (checkNode.getNodeType() != Node.ELEMENT_NODE) {
+					continue;
+				}
+
+				CheckInput check = new CheckInput();
+				NamedNodeMap att = checkNode.getAttributes();
+				check.setValue(att.getNamedItem("value").getTextContent());
+				check.setX(Integer.parseInt(att.getNamedItem("x").getTextContent()));
+				check.setY(Integer.parseInt(att.getNamedItem("y").getTextContent()));
+
+				checkInputs.add(check);
+			}
+
+			checkList.setCheckList(checkInputs);
+			form.addInput(checkList);
 		}
 	}
 }
