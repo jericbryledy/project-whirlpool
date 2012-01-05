@@ -34,8 +34,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -96,14 +94,16 @@ public class QuestionPanel extends java.awt.Panel {
 		removeAll();
 	}
 
-	public void setup(Question question) {
+	public boolean setup(Question question) {
+		boolean setupSuccess = true;
+
 		clear();
 
 		try {
 			BufferedImage image = ImageIO.read(new File(question.getImage()));
 			setBackground(image);
 		} catch (IOException ex) {
-			Logger.getLogger(WhirlpoolWindow.class.getName()).log(Level.SEVERE, null, ex);
+			setupSuccess = false;
 		}
 
 		FormInput[] formInputs = question.getForm().getInputs();
@@ -124,6 +124,8 @@ public class QuestionPanel extends java.awt.Panel {
 		}
 
 		repaint();
+
+		return setupSuccess;
 	}
 
 	private TextField setupTextInput(TextInput text) {

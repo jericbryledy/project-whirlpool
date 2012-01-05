@@ -1,4 +1,5 @@
-<class>
+
+<class xmlns="http://www.jericbryledy.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jericbryledy.com ../../whirlpool.xsd">
 	<name>Introduction to AI Class by Prof. Thrun and Prof. Norvig</name>
 	<units>
 		<unit id="00">
@@ -80,10 +81,130 @@
 						</answers>
 					</question>
 				</lecture>
+				<lecture id="01-04">
+					<name>Applications of AI</name>
+					<video>ai-class/ai-res/01-04.mp4</video>
+				</lecture>
+				<lecture id="01-05">
+					<name>Terminology</name>
+					<video>ai-class/ai-res/01-05.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-05.jpg</image>
+						<form>
+							<checks name="checkers">
+								<check x="211" y="222" value="partially_observable" />
+								<check x="339" y="216" value="stochastic" />
+								<check x="459" y="214" value="continuous" />
+								<check x="578" y="217" value="adversarial" />
+							</checks>
+						</form>
+						<answers>
+							<answer name="checkers" value="adversarial" />
+						</answers>
+						<explanation>ai-class/ai-res/01-05-exp.mp4</explanation>
+					</question>
+				</lecture>
+				<lecture id="01-06">
+					<name>Poker Question</name>
+					<video>ai-class/ai-res/01-06.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-06.jpg</image>
+						<form>
+							<checks name="poker">
+								<check x="200" y="247" value="partially_observable" />
+								<check x="317" y="245" value="stochastic" />
+								<check x="424" y="240" value="continuous" />
+								<check x="533" y="240" value="adversarial" />
+							</checks>
+						</form>
+						<answers>
+							<answer name="poker" value="partially_observable stochastic adversarial" />
+						</answers>
+						<explanation>ai-class/ai-res/01-06-exp.mp4</explanation>
+					</question>
+				</lecture>
+				<lecture id="01-07">
+					<name>Robot Car Question</name>
+					<video>ai-class/ai-res/01-07.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-07.jpg</image>
+						<form>
+							<checks name="robot">
+								<check x="196" y="295" value="partially_observable" />
+								<check x="315" y="285" value="stochastic" />
+								<check x="426" y="283" value="continuous" />
+								<check x="533" y="280" value="adversarial" />
+							</checks>
+						</form>
+						<answers>
+							<answer name="robot" value="partially_observable stochastic continuous" />
+						</answers>
+						<explanation>ai-class/ai-res/01-07-exp.mp4</explanation>
+					</question>
+				</lecture>
+				<lecture id="01-08">
+					<name>AI and Uncertainty</name>
+					<video>ai-class/ai-res/01-08.mp4</video>
+				</lecture>
+				<lecture id="01-09">
+					<name>Machine Translation</name>
+					<video>ai-class/ai-res/01-09.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-09.jpg</image>
+						<form>
+							<checks name="chicken">
+								<check x="77" y="72" value="57-1" />
+								<check x="140" y="72" value="57-2" />
+								<check x="74" y="113" value="58-1" />
+								<check x="123" y="114" value="58-2" />
+								<check x="74" y="134" value="59-1" />
+								<check x="167" y="134" value="59-2" />
+								<check x="142" y="176" value="61" />
+								<check x="168" y="218" value="63" />
+								<check x="71" y="237" value="64" />
+								<check x="119" y="259" value="65" />
+								<check x="168" y="282" value="66" />
+								<check x="72" y="299" value="67-1" />
+								<check x="136" y="301" value="67-2" />
+								<check x="72" y="322" value="68-1" />
+								<check x="147" y="322" value="68-2" />
+								<check x="71" y="345" value="69-1" />
+								<check x="166" y="344" value="69-2" />
+							</checks>
+						</form>
+						<answers>
+							<answer name="chicken" value="57-2 58-1 59-1 67-1" />
+						</answers>
+					</question>
+				</lecture>
+				<lecture id="01-10">
+					<name>Chinese Translation 1</name>
+					<video>ai-class/ai-res/01-10.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-10.jpg</image>
+						<form>
+							<checks name="corn_cream">
+								<check x="121" y="116" value="58" />
+								<check x="122" y="135" value="59-1" />
+								<check x="161" y="135" value="59-2" />
+								<check x="79" y="157" value="60-1" />
+								<check x="107" y="156" value="60-2" />
+								<check x="124" y="195" value="62-1" />
+								<check x="161" y="197" value="62-2" />
+								<check x="71" y="217" value="63-1" />
+								<check x="160" y="217" value="63-2" />
+								<check x="120" y="259" value="65-1" />
+							</checks>
+						</form>
+						<answers>
+							<answer name="corn_cream" value="67-1 67-2 68-2 68-3" />
+						</answers>
+					</question>
+				</lecture>
 			</lectures>
 		</unit>
-		<unit id="02">
+<!--		<unit id="02">
 			<name>Problem Solving</name>
-		</unit>
+		</unit>-->
 	</units>
 </class>
