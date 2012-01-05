@@ -1,51 +1,15 @@
-
 <class xmlns="http://www.jericbryledy.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jericbryledy.com ../../whirlpool.xsd">
 	<name>Introduction to AI Class by Prof. Thrun and Prof. Norvig</name>
 	<units>
-		<unit id="00">
-			<name>Example Unit (for testing Purpose only)</name>
-			<lectures>
-				<lecture id="00-00">
-					<name>Example Lecture (for testing Purpose only)</name>
-					<video>ai-class/ai-res/01-02.mp4</video>
-					<question>
-						<image>ai-class/ai-res/01-02.jpg</image>
-						<form>
-							<radio name="q1">
-								<choice x="126" y="208" value="wetware" />
-								<choice x="127" y="268" value="formula" />
-								<choice x="127" y="326" value="intelligent_agent" />
-							</radio>
-							<radio name="q2">
-								<choice x="10" y="10" value="wetware" />
-								<choice x="50" y="50" value="formula" />
-								<choice x="100" y="100" value="intelligent_agent" />
-							</radio>
-							<text name="q3" x="200" y="10" />
-							<checks name="q4">
-								<check value="test" x="10" y="200" />
-							</checks>
-						</form>
-						<answers>
-							<answer name="q1" value="intelligent_agent" />
-							<answer name="q2" value="formula" />
-							<answer name="q3" value="hello" />
-							<answer name="q4" value="test" />
-						</answers>
-						<explanation>ai-class/ai-res/01-02-exp.mp4</explanation>
-					</question>
-				</lecture>
-			</lectures>
-		</unit>
 		<unit id="01">
-			<name>Welcome to AI</name>
+			<name>1. Welcome to AI</name>
 			<lectures>
 				<lecture id="01-01">
-					<name>Introduction</name>
+					<name>1. Introduction</name>
 					<video>ai-class/ai-res/01-01.mp4</video>
 				</lecture>
 				<lecture id="01-02">
-					<name>Course Overview</name>
+					<name>2. Course Overview</name>
 					<video>ai-class/ai-res/01-02.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-02.jpg</image>
@@ -62,7 +26,7 @@
 					</question>
 				</lecture>
 				<lecture id="01-03">
-					<name>Intelligent Agents</name>
+					<name>3. Intelligent Agents</name>
 					<video>ai-class/ai-res/01-03.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-03.jpg</image>
@@ -82,11 +46,11 @@
 					</question>
 				</lecture>
 				<lecture id="01-04">
-					<name>Applications of AI</name>
+					<name>4. Applications of AI</name>
 					<video>ai-class/ai-res/01-04.mp4</video>
 				</lecture>
 				<lecture id="01-05">
-					<name>Terminology</name>
+					<name>5. Terminology</name>
 					<video>ai-class/ai-res/01-05.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-05.jpg</image>
@@ -105,7 +69,7 @@
 					</question>
 				</lecture>
 				<lecture id="01-06">
-					<name>Poker Question</name>
+					<name>6. Poker Question</name>
 					<video>ai-class/ai-res/01-06.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-06.jpg</image>
@@ -124,7 +88,7 @@
 					</question>
 				</lecture>
 				<lecture id="01-07">
-					<name>Robot Car Question</name>
+					<name>7. Robot Car Question</name>
 					<video>ai-class/ai-res/01-07.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-07.jpg</image>
@@ -143,11 +107,11 @@
 					</question>
 				</lecture>
 				<lecture id="01-08">
-					<name>AI and Uncertainty</name>
+					<name>8. AI and Uncertainty</name>
 					<video>ai-class/ai-res/01-08.mp4</video>
 				</lecture>
 				<lecture id="01-09">
-					<name>Machine Translation</name>
+					<name>9. Machine Translation</name>
 					<video>ai-class/ai-res/01-09.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-09.jpg</image>
@@ -178,7 +142,7 @@
 					</question>
 				</lecture>
 				<lecture id="01-10">
-					<name>Chinese Translation 1</name>
+					<name>10. Chinese Translation 1</name>
 					<video>ai-class/ai-res/01-10.mp4</video>
 					<question>
 						<image>ai-class/ai-res/01-10.jpg</image>
@@ -194,12 +158,64 @@
 								<check x="71" y="217" value="63-1" />
 								<check x="160" y="217" value="63-2" />
 								<check x="120" y="259" value="65-1" />
+								<check x="159" y="261" value="65-2" />
+								<check x="137" y="281" value="66" />
+								<check x="111" y="302" value="67-1" />
+								<check x="137" y="300" value="67-2" />
+								<check x="168" y="300" value="67-3" />
+								<check x="74" y="322" value="68-1" />
+								<check x="126" y="321" value="68-2" />
+								<check x="149" y="322" value="68-3" />
+								<check x="69" y="343" value="69-1" />
+								<check x="119" y="342" value="69-2" />
 							</checks>
 						</form>
 						<answers>
 							<answer name="corn_cream" value="67-1 67-2 68-2 68-3" />
 						</answers>
 					</question>
+				</lecture>
+				<lecture id="01-11">
+					<name>11. Chinese Translation 2</name>
+					<video>ai-class/ai-res/01-11.mp4</video>
+					<question>
+						<image>ai-class/ai-res/01-11.jpg</image>
+						<form>
+							<checks name="soup">
+								<check x="106" y="72" value="57-1" />
+								<check x="172" y="71" value="57-2" />
+								<check x="163" y="113" value="58" />
+								<check x="169" y="136" value="59" />
+								<check x="110" y="156" value="60-1" />
+								<check x="170" y="156" value="60-2" />
+								<check x="69" y="176" value="61-1" />
+								<check x="169" y="179" value="61-2" />
+								<check x="166" y="197" value="62" />
+								<check x="116" y="218" value="63-1" />
+								<check x="165" y="219" value="63-2" />
+								<check x="116" y="239" value="64-1" />
+								<check x="167" y="241" value="64-2" />
+								<check x="166" y="261" value="65" />
+								<check x="169" y="279" value="66" />
+								<check x="137" y="301" value="67-1" />
+								<check x="168" y="301" value="67-2" />
+								<check x="75" y="322" value="68-1" />
+								<check x="170" y="323" value="68-2" />
+								<check x="167" y="345" value="69" />
+							</checks>
+						</form>
+						<answers>
+							<answer name="soup" value="57-2 58 59 61-2 62 63-2 64-2 65 66 67-2 68-2 69" />
+						</answers>
+					</question>
+				</lecture>
+				<lecture id="01-12">
+					<name>12. Chinese Translation 3</name>
+					<video>ai-class/ai-res/01-12.mp4</video>
+				</lecture>
+				<lecture id="01-13">
+					<name>13. Summary</name>
+					<video>ai-class/ai-res/01-13.mp4</video>
 				</lecture>
 			</lectures>
 		</unit>
