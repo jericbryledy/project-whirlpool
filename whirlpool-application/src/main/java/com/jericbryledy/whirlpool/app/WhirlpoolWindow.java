@@ -78,6 +78,9 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
         doneButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         explanationButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        aboutItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Whirlpool eLearning");
@@ -189,6 +192,20 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jScrollPane2);
 
+        jMenu1.setText("Help");
+
+        aboutItem.setText("About");
+        aboutItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(aboutItem);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -202,7 +219,7 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -238,6 +255,14 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	private void explanationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_explanationButtonActionPerformed
 		launchVideo(getExplanationVideoPath());
 	}//GEN-LAST:event_explanationButtonActionPerformed
+
+private void aboutItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutItemActionPerformed
+	JOptionPane.showMessageDialog(this,
+			"Version: 1.0\n"
+			+ "Author: Jeric Bryle Dy\n"
+			+ "Website: http://www.jericbryledy.com\n"
+			+ "Contact: http://www.jericbryledy.com/contact-me", "About", JOptionPane.INFORMATION_MESSAGE);
+}//GEN-LAST:event_aboutItemActionPerformed
 
 	private void setVideoPath(String videoPath) {
 		curLectureVideoPath = videoPath;
@@ -364,10 +389,13 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 		}
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutItem;
     private javax.swing.JToggleButton displayProblemButton;
     private javax.swing.JButton doneButton;
     private javax.swing.JButton explanationButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

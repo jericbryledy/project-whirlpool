@@ -3,88 +3,248 @@
 	<xs:element name="class" type="classType" />
 
 	<xs:complexType name="classType">
-		<xs:all>
-			<xs:element name="name" type="xs:string" />
-			<xs:element name="units" type="unitsType" />
-		</xs:all>
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The name of the class
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="units" type="unitsType">
+				<xs:annotation>
+					<xs:documentation>
+						Contains the units for the class
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="unitsType">
 		<xs:sequence>
-			<xs:element name="unit" type="unitType" maxOccurs="unbounded" />
+			<xs:element name="unit" type="unitType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Contains the definition of the unit
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="unitType">
-		<xs:all>
-			<xs:element name="name" type="xs:string" />
-			<xs:element name="lectures" type="lecturesType" />
-		</xs:all>
-		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the unit
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lectures" type="lecturesType">
+				<xs:annotation>
+					<xs:documentation>
+						Contains the lectures for the unit
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					ID for the unit
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="lecturesType">
 		<xs:sequence>
 			<xs:element name="lecture" type="lectureType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Contains the definition of the lecture
+					</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="lectureType">
-		<xs:all>
-			<xs:element name="name" type="xs:string" />
-			<xs:element name="video" type="xs:string" />
-			<xs:element name="question" type="questionType" minOccurs="0" />
-		</xs:all>
-		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the lecture
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="video" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Path of the lecture video file (Relative or Absolute)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="question" type="questionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Contains the definition for the Question / Problem for this lecture
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					ID for the lecture
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="questionType">
-		<xs:all>
-			<xs:element name="image" type="xs:string" />
-			<xs:element name="form" type="formType" />
-			<xs:element name="answers" type="answersType" />
-			<xs:element name="explanation" type="xs:string" minOccurs="0" />
-		</xs:all>
+		<xs:sequence>
+			<xs:element name="image" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						Path of the image question file (Relative or Absolute)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="form" type="formType">
+				<xs:annotation>
+					<xs:documentation>
+						The form containing the fields for the question/s
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="answers" type="answersType">
+				<xs:annotation>
+					<xs:documentation>
+						Contains the list of answers (answer key) for the question
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="explanation" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Path of the video file explanation for the answer to the question (Relative or Absolute)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="formType">
 		<xs:choice maxOccurs="unbounded">
-			<xs:element name="text" type="textField" />
-			<xs:element name="radio" type="radioType" />
-			<xs:element name="checks" type="checksType" />
+			<xs:element name="text" type="textField">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies a text field input
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="radio" type="radioType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies a group of radio button inputs
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="checks" type="checksType">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies a group of check box inputs
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="radioType">
 		<xs:sequence>
-			<xs:element name="choice" type="clickField" maxOccurs="unbounded" />
+			<xs:element name="choice" type="clickField" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies a radio button input
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The name label for the radio groupmust be unique among
+					other input field within form.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="checksType">
 		<xs:sequence>
-			<xs:element name="check" type="clickField" maxOccurs="unbounded" />
+			<xs:element name="check" type="clickField" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies a check box input
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The name label for the check box, must be unique among
+					other input field within form.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="answersType">
 		<xs:sequence>
-			<xs:element name="answer" type="answerType" maxOccurs="unbounded" />
+			<xs:element name="answer" type="answerType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Specifies an answer to one of the inputs specified in the form
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="answerType">
-		<xs:attribute name="name" type="xs:string" use="required" />
-		<xs:attribute name="value" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The name reference to the name of the input group specified in the form
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="value" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					The correct answer for the specified name attribute.
+					For check box inputs, this should contain the values of the
+					check boxes that should be checked separated by whitespace.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="textField">
 		<xs:complexContent>
 			<xs:extension base="coordinatedField">
-				<xs:attribute name="name" type="xs:string" use="required" />
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							The name for this text field, must be unique among
+							other input field within form.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -92,14 +252,34 @@
 	<xs:complexType name="clickField">
 		<xs:complexContent>
 			<xs:extension base="coordinatedField">
-				<xs:attribute name="value" type="xs:string" use="required" />
+				<xs:attribute name="value" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							The value of this field when selected
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="coordinatedField">
-		<xs:attribute name="x" type="xs:integer" use="required" />
-		<xs:attribute name="y" type="xs:integer" use="required" />
+		<xs:attribute name="x" type="xs:integer" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Horizontal coordinate of the field from the left of the
+					image specified.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="y" type="xs:integer" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Vertical coordinate of the field from the top of the image
+					specified
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 </xs:schema>
