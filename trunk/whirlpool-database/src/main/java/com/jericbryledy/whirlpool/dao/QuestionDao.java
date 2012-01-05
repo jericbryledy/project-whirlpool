@@ -32,6 +32,12 @@ public class QuestionDao {
 			question = new Question();
 			question.setImage(helper.retrieveString(mainQuery.toString() + "image"));
 			question.setForm(formDao.getByLectureId(lectureId));
+			String explanation = helper.retrieveString(mainQuery.toString() + "explanation");
+			if (explanation != null) {
+				if (!explanation.isEmpty()) {
+					question.setExplanation(explanation);
+				}
+			}
 		}
 
 		return question;

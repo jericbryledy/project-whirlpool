@@ -19,6 +19,7 @@ import com.jericbryledy.whirlpool.app.gui.WhirlpoolRadioButton;
 import com.jericbryledy.whirlpool.bean.AnswerKey;
 import com.jericbryledy.whirlpool.bean.Question;
 import com.jericbryledy.whirlpool.bean.forminput.CheckInput;
+import com.jericbryledy.whirlpool.bean.forminput.CheckList;
 import com.jericbryledy.whirlpool.bean.forminput.FormInput;
 import com.jericbryledy.whirlpool.bean.forminput.RadioChoice;
 import com.jericbryledy.whirlpool.bean.forminput.RadioInput;
@@ -114,9 +115,9 @@ public class QuestionPanel extends java.awt.Panel {
 			} else if (input instanceof RadioInput) {
 				ButtonGroup group = setupRadioInput((RadioInput) input);
 				adaptor = new RadioInputAdaptor(input.getName(), group);
-			} else if (input instanceof CheckInput) {
-				JCheckBox check = setupCheckInput((CheckInput) input);
-				adaptor = new CheckAdaptor(input.getName(), check);
+			} else if (input instanceof CheckList) {
+				List<JCheckBox> list = setupCheckList((CheckList) input);
+				adaptor = new CheckAdaptor(input.getName(), list);
 			}
 
 			inputAdaptors.add(adaptor);
@@ -151,13 +152,21 @@ public class QuestionPanel extends java.awt.Panel {
 		return group;
 	}
 
-	private JCheckBox setupCheckInput(CheckInput check) {
-		JCheckBox checkField = new WhirlpoolCheckBox(13, 13);
-		checkField.setLocation(check.getX(), check.getY());
+	private List<JCheckBox> setupCheckList(CheckList checkList) {
+		List<JCheckBox> list = new Stack<JCheckBox>();
 
-		add(checkField);
+		CheckInput[] checks = checkList.getCheckList();
+		for (CheckInput input : checks) {
+			JCheckBox checkBox = new WhirlpoolCheckBox(13, 13);
+			checkBox.setLocation(input.getX(), input.getY());
+			checkBox.setActionCommand(input.getValue());
 
-		return checkField;
+			add(checkBox);
+
+			list.add(checkBox);
+		}
+
+		return list;
 	}
 
 	/**

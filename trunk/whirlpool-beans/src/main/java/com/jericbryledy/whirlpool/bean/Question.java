@@ -12,6 +12,7 @@ public class Question {
 
 	private String image;
 	private Form form;
+	private String explanation;
 
 	public String getImage() {
 		return image;
@@ -27,5 +28,13 @@ public class Question {
 
 	public void setForm(Form form) {
 		this.form = form;
+	}
+
+	public String getExplanation() {
+		return explanation;
+	}
+
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
 	}
 }

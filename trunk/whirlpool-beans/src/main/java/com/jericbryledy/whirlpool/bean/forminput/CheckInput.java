@@ -8,18 +8,18 @@ package com.jericbryledy.whirlpool.bean.forminput;
  *
  * @author Jeric Bryle Sy Dy
  */
-public class CheckInput implements FormInput {
+public class CheckInput {
 
-	private String name;
+	private String value;
 	private int x;
 	private int y;
 
-	public String getName() {
-		return name;
+	public String getValue() {
+		return value;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	public int getX() {

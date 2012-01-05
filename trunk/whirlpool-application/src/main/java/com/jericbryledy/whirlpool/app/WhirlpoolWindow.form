@@ -93,11 +93,13 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="doneButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="explanationButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="nextButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="questionPane" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="547" max="32767" attributes="0"/>
+                          <EmptySpace pref="469" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -114,6 +116,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="displayProblemButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="doneButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="explanationButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="nextButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -180,6 +183,15 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nextButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="explanationButton">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Explanation"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="explanationButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
