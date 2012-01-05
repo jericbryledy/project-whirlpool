@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.jericbryledy.com" targetNamespace="http://www.jericbryledy.com" elementFormDefault="qualified">
+	<xs:element name="class" type="classType" />
+
+	<xs:complexType name="classType">
+		<xs:all>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="units" type="unitsType" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="unitsType">
+		<xs:sequence>
+			<xs:element name="unit" type="unitType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="unitType">
+		<xs:all>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="lectures" type="lecturesType" />
+		</xs:all>
+		<xs:attribute name="id" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="lecturesType">
+		<xs:sequence>
+			<xs:element name="lecture" type="lectureType" maxOccurs="unbounded">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="lectureType">
+		<xs:all>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="video" type="xs:string" />
+			<xs:element name="question" type="questionType" minOccurs="0" />
+		</xs:all>
+		<xs:attribute name="id" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="questionType">
+		<xs:all>
+			<xs:element name="image" type="xs:string" />
+			<xs:element name="form" type="formType" />
+			<xs:element name="answers" type="answersType" />
+			<xs:element name="explanation" type="xs:string" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="formType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="text" type="textField" />
+			<xs:element name="radio" type="radioType" />
+			<xs:element name="checks" type="checksType" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="radioType">
+		<xs:sequence>
+			<xs:element name="choice" type="clickField" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="checksType">
+		<xs:sequence>
+			<xs:element name="check" type="clickField" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="answersType">
+		<xs:sequence>
+			<xs:element name="answer" type="answerType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="answerType">
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="value" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="textField">
+		<xs:complexContent>
+			<xs:extension base="coordinatedField">
+				<xs:attribute name="name" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="clickField">
+		<xs:complexContent>
+			<xs:extension base="coordinatedField">
+				<xs:attribute name="value" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="coordinatedField">
+		<xs:attribute name="x" type="xs:integer" use="required" />
+		<xs:attribute name="y" type="xs:integer" use="required" />
+	</xs:complexType>
+
+</xs:schema>

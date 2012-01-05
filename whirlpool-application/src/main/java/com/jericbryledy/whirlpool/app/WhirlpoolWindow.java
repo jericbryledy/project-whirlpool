@@ -270,8 +270,11 @@ public class WhirlpoolWindow extends javax.swing.JFrame {
 	}
 
 	private void showProblem() {
-		questionPane.setup(curQuestion);
-		doneButton.setEnabled(true);
+		if (questionPane.setup(curQuestion)) {
+			doneButton.setEnabled(true);
+		} else {
+			JOptionPane.showMessageDialog(this, "File not found: " + curQuestion.getImage());
+		}
 	}
 
 	private void hideProblem() {
