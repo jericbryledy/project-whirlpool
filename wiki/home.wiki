@@ -1,0 +1,19 @@
+= Introduction =
+
+Whirlpool is a tool for interactive learning. Lectures may be defined in an XML file and be distributed to students, together with its resources such as videos and images.
+
+<img src='http://project-whirlpool.googlecode.com/svn/wiki/screenshots/video_lecture.png' />
+
+= Lectures =
+
+After every lectures, an optional question may be provided to further test the understanding of the student. The answer input for the questions may consist of (can be multiple) texts, radio buttons and check boxes.
+
+<img src='http://project-whirlpool.googlecode.com/svn/wiki/screenshots/question.png' />
+
+After answering the question, correct answers will be marked with a green color and wrong answers will be marked with a red color.
+
+<img src='http://project-whirlpool.googlecode.com/svn/wiki/screenshots/wrong.png' />
+
+An optional explanation video may also be provided.
+
+<img src='http://project-whirlpool.googlecode.com/svn/wiki/screenshots/explanation.png' />

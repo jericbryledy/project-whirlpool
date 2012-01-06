@@ -1,0 +1,4 @@
+= Introduction to Artificial Intelligence =
+
+Since the main purpose of this project is to provide an offline option (and archive) the class of Professor Sebastian Thrun and Professor Peter Norvig. This page will be dedicated to help users setup Whirlpool for the mentioned class.
+
