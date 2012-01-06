@@ -1,0 +1,36 @@
+<class xmlns="http://www.jericbryledy.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jericbryledy.com http://project-whirlpool.googlecode.com/files/whirlpool.xsd">
+	<name>Example Class</name>
+	<units>
+		<unit id="01">
+			<name>Unit 1</name>
+			<lectures>
+				<lecture id="01-01">
+					<name>Lecture 1</name>
+					<video>video-01-01.mp4</video>
+					<question>
+						<image>image-01-01.mp4</image>
+						<form>
+							<text x="10" y="10" name="q1" />
+							<checks name="q2">
+								<check x="10" y="30" value="a" />
+								<check x="10" y="50" value="b" />
+								<check x="10" y="70" value="c" />
+							</checks>
+							<radio name="q3">
+								<choice x="10" y="90" value="d" />
+								<choice x="10" y="110" value="e" />
+								<choice x="10" y="130" value="f" />
+							</radio>
+						</form>
+						<answers>
+							<answer name="q1" value="hello" />
+							<answer name="q2" value="a b" />
+							<answer name="q3" value="e" />
+						</answers>
+						<explanation>video-01-01-exp.mp4</explanation>
+					</question>
+				</lecture>
+			</lectures>
+		</unit>
+	</units>
+</class>
