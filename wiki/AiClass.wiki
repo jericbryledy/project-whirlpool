@@ -2,3 +2,11 @@
 
 Since the main purpose of this project is to provide an offline option (and archive) the class of Professor Sebastian Thrun and Professor Peter Norvig. This page will be dedicated to help users setup Whirlpool for the mentioned class.
 
+First download and extract the class resource <a href="http://www.mediafire.com/?y1hbofygufvaw">here</a> (or <a href="http://www.mediafire.com/download.php?pb9uonlhy77d528">part1</a> and <a href="http://www.mediafire.com/download.php?3vado92mo2ec8xp">part2</a>). Replace the class.properties file with the one provided and copy the ai-class directory to the same directory as the class.properties.
+
+<img src='http://project-whirlpool.googlecode.com/svn/wiki/screenshots/copy.png' />
+
+Run Whirlpool by whirlpool.bat or whirlpool.sh depending on your OS and you should see something like:
+<img src='http://project-whirlpool.googlecode.com/svn/wiki/screenshots/ai-class-unit1.png' />
+
+For concerns or sugguestions, contact author <a href="http://www.jericbryledy.com/contact-me">here</a>.
