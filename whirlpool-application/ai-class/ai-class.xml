@@ -1,4 +1,4 @@
-<class xmlns="http://www.jericbryledy.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jericbryledy.com http://project-whirlpool.googlecode.com/files/whirlpool.xsd">
+<class xmlns="http://www.jericbryledy.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jericbryledy.com http://whirlpool.jericbryledy.com/files/whirlpool.xsd">
 	<name>Introduction to AI Class by Prof. Thrun and Prof. Norvig</name>
 	<units>
 		<unit id="01">
